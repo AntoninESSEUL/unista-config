@@ -1,0 +1,8 @@
+# Covered by ../.gitignore — kept for tools that only scan this folder
+node_modules/
+dist/
+dist-ssr/
+*.local
+.DS_Store
+.env
+.env.*

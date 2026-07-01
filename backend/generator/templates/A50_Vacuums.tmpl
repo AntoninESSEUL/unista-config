@@ -1,0 +1,21 @@
+ACTION A50_Vacuums: 
+
+	pConfiguratorDate.VA := '{{ .Date }}';
+
+{{- range $vac := .GetEquipment "vacuum" }}
+	// --------------------------------------------------------------------------------------------------------------- //
+	// VA {{ $vac.Index }} : {{ $vac.Name }}
+	// --------------------------------------------------------------------------------------------------------------- //
+	// Activation
+	pVacuumList[{{ $vac.Index }}].Active                              := TRUE;
+	pVacuumList[{{ $vac.Index }}].Enable                              := {{ if $vac.Enable }}TRUE{{ else }}FALSE{{ end }};
+	pVacuumList[{{ $vac.Index }}].ID                                  := {{ $vac.Index }};
+	pVacuumList[{{ $vac.Index }}].ID_EM                               := {{ index $.ModuleMap $vac.EmID }};
+	
+	// Configuration
+	pVacuumList[{{ $vac.Index }}].Cfg.Task                            := 4;
+	pVacuumList[{{ $vac.Index }}].Cfg.VenturiType                     := {{ $vac.Configuration.cmdType }};
+	pVacuumList[{{ $vac.Index }}].Cfg.Sensor                          := {{ $vac.Configuration.switchType }};
+{{- end }}
+
+END_ACTION

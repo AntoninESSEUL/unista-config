@@ -1,0 +1,20 @@
+ACTION A60_DigInputs: 
+
+	pConfiguratorDate.DI					  := '{{ .Date }}';
+
+{{- range $di := .GetEquipment "digitalInput" }}
+	// --------------------------------------------------------------------------------------------------------------- //
+	// DI {{ $di.Index }} : {{ $di.Name }}
+	// --------------------------------------------------------------------------------------------------------------- //
+	// Activation
+	pDigInputList[{{ $di.Index }}].Active                             := TRUE;
+	pDigInputList[{{ $di.Index }}].Enable                             := {{ if $di.Enable }}TRUE{{ else }}FALSE{{ end }};
+	pDigInputList[{{ $di.Index }}].ID                                 := {{ $di.Index }};
+	pDigInputList[{{ $di.Index }}].ID_EM                              := {{ if $di.EmID }}{{ index $.ModuleMap $di.EmID }}{{ else }}0{{ end }};
+
+	// Configuration
+	pDigInputList[{{ $di.Index }}].Cfg.Task                           := 4;
+	pDigInputList[{{ $di.Index }}].Cfg.ActivityLevel                  := {{ if $di.Configuration.activityLevel }}TRUE{{ else }}FALSE{{ end }};
+{{- end }}
+
+END_ACTION
